@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who is da bomb?</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Poppins:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>Who is da bomb?!</h1>
+
+        <p class="answer">
+            <strong id="bomb-name">...</strong>
+            <span class="is-da-bomb">is da bomb!</span>
+        </p>
+
+        <p class="tagline">Da bomb<span class="dot-com">.com!</span></p>
+    </div>
+
+    <script>
+        // Function to extract subdomain and update the page
+        function initializePage() {
+            // --- Subdomain Extraction Logic ---
+            const hostname = window.location.hostname; // e.g., "brandon.is-da-bomb.com"
+            const parts = hostname.split('.');
+            let subdomain = 'Nobody'; // Default
+
+            // Basic check: need at least 3 parts for subdomain.domain.tld
+            // Exclude 'www' explicitly and empty first part
+            if (parts.length >= 3 && parts[0] !== '' && parts[0] !== 'www') {
+                // Use textContent later, so no need for htmlspecialchars here
+                subdomain = parts[0];
+            } else {
+                 // Handle the case for is-da-bomb.com or www.is-da-bomb.com or missing subdomain
+                 subdomain = 'You'; // Or 'Everybody'
+            }
+
+            // --- Update HTML Content ---
+            const nameElement = document.getElementById('bomb-name');
+            if (nameElement) {
+                // Use textContent to safely update the text (prevents HTML injection)
+                nameElement.textContent = subdomain;
+            }
+
+             // Update the page title dynamically
+             document.title = `OMG! ${subdomain} is DA BOMB!`;
+
+            // --- Trigger Confetti ---
+            // Wait slightly after name update, then unleash the confetti!
+            setTimeout(makeItRain, 300);
+        }
+
+        // Function to trigger confetti (same as before)
+        function makeItRain() {
+            // Basic burst
+            confetti({
+                particleCount: 150,
+                spread: 90,
+                origin: { y: 0.6 }
+            });
+
+            // More bursts for extra emphasis!
+            setTimeout(() => confetti({ particleCount: 100, spread: 120, startVelocity: 30, origin: { x: 0, y: 0.8 }, shapes: ['star'] }), 200);
+            setTimeout(() => confetti({ particleCount: 100, spread: 120, startVelocity: 30, origin: { x: 1, y: 0.8 }, shapes: ['star'] }), 400);
+
+            // Keep some stars falling for a bit
+             const duration = 3 * 1000; // 3 seconds
+             const animationEnd = Date.now() + duration;
+             const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+             function randomInRange(min, max) {
+               return Math.random() * (max - min) + min;
+             }
+
+             const interval = setInterval(function() {
+               const timeLeft = animationEnd - Date.now();
+
+               if (timeLeft <= 0) {
+                 return clearInterval(interval);
+               }
+
+               const particleCount = 50 * (timeLeft / duration);
+               confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, shapes: ['star'] }));
+               confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, shapes: ['star'] }));
+             }, 250);
+        }
+
+        // Run the initialization function when the page content is fully loaded
+        document.addEventListener('DOMContentLoaded', initializePage);
+
+    </script>
+
+</body>
+</html>

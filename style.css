@@ -1,0 +1,110 @@
+/* Basic Reset & Body Styling */
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif; /* Using Poppins as a base */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* Over-the-top radial gradient background */
+    background: radial-gradient(circle, rgba(255,223,0,1) 0%, rgba(255,45,45,1) 100%);
+    color: #fff; /* White text generally contrasts well */
+    overflow: hidden; /* Hide scrollbars often caused by confetti canvas */
+}
+
+.container {
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background for text */
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* Headline Styling */
+h1 {
+    font-family: 'Lobster', cursive; /* Fun, cursive font */
+    font-size: 3.5rem; /* Responsive unit */
+    color: #ffcc00; /* Bright yellow */
+    margin-bottom: 10px;
+    text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.7); /* Simple drop shadow */
+}
+
+/* Answer Paragraph Styling */
+.answer {
+    font-size: 2.5rem; /* Large text */
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+/* THE SPECIAL NAME STYLING */
+#bomb-name {
+    display: inline-block; /* Needed for transforms and some effects */
+    font-size: 4rem; /* Make it HUGE */
+    font-weight: 700; /* Bold Poppins */
+    text-transform: capitalize; /* Capitalize the first letter */
+
+    /* --- METHOD 1: Animated Gradient Text --- */
+     background: linear-gradient(45deg, #ff00e1, #ffae00, #00ffdd, #ff00e1);
+     background-size: 400% 400%; /* Make gradient large enough to animate */
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent; /* Hide the actual text color, show gradient */
+    animation: gradient-flow 5s ease infinite, pulse 1.5s infinite ease-in-out;
+
+    /* --- METHOD 2: (Alternative) Bright Color with Glow --- */
+    /* color: #00ffea; */ /* Bright cyan */
+    /* text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00ffea, 0 0 20px #00ffea, 0 0 25px #00ffea; */
+    /* animation: pulse 1.5s infinite ease-in-out; */
+
+    padding: 0 10px; /* Add some spacing around the name */
+}
+
+/* Styling for "is da bomb" part */
+.is-da-bomb {
+    font-size: 2rem; /* Slightly smaller than the name */
+    font-weight: normal; /* Less emphasis */
+    color: #eee; /* Lighter grey */
+    margin-left: 5px;
+     text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+/* Tagline Styling */
+.tagline {
+    font-family: 'Lobster', cursive;
+    font-size: 2rem;
+    color: #ffcc00;
+    margin-top: 30px;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.7);
+}
+
+.dot-com {
+    color: #ff4545; /* Contrasting red for .com */
+}
+
+
+/* Keyframe Animations */
+
+/* For the gradient text */
+@keyframes gradient-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* For pulsing effect */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+/* Responsive Adjustments (Example) */
+@media (max-width: 600px) {
+    h1 { font-size: 2.5rem; }
+    .answer { font-size: 1.8rem; }
+    #bomb-name { font-size: 2.8rem; }
+    .is-da-bomb { font-size: 1.5rem; }
+    .tagline { font-size: 1.5rem; }
+    .container { padding: 20px; }
+}
