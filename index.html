@@ -26,36 +26,65 @@
     </div>
 
     <script>
-        // Function to extract subdomain and update the page
+// --- Helper Function for Name Formatting ---
+        function formatSubdomainName(rawName) {
+            if (!rawName || typeof rawName !== 'string') {
+                return 'Nobody'; // Return default if input is invalid
+            }
+
+            // 1. Replace all hyphens with spaces
+            const withSpaces = rawName.replace(/-/g, ' ');
+
+            // 2. Capitalize the first letter of each word
+            const words = withSpaces.split(' ');
+            const capitalizedWords = words.map(word => {
+                if (word.length === 0) {
+                    return ''; // Handle potential multiple spaces
+                }
+                return word.charAt(0).toUpperCase() + word.slice(1);
+            });
+
+            // 3. Join words back together
+            return capitalizedWords.join(' ');
+        }
+
+
+        // --- Main Page Initialization Logic ---
         function initializePage() {
             // --- Subdomain Extraction Logic ---
             const hostname = window.location.hostname; // e.g., "brandon.is-da-bomb.com"
             const parts = hostname.split('.');
-            let subdomain = 'Nobody'; // Default
+            let rawSubdomain = 'Nobody'; // Default raw name
 
             // Basic check: need at least 3 parts for subdomain.domain.tld
             // Exclude 'www' explicitly and empty first part
             if (parts.length >= 3 && parts[0] !== '' && parts[0] !== 'www') {
-                // Use textContent later, so no need for htmlspecialchars here
-                subdomain = parts[0];
+                rawSubdomain = parts[0];
             } else {
                  // Handle the case for is-da-bomb.com or www.is-da-bomb.com or missing subdomain
-                 subdomain = 'You'; // Or 'Everybody'
+                 rawSubdomain = 'You'; // Default for base domain cases
             }
+
+            // --- Format the Extracted Name ---
+            const formattedSubdomain = formatSubdomainName(rawSubdomain);
+
 
             // --- Update HTML Content ---
             const nameElement = document.getElementById('bomb-name');
             if (nameElement) {
-                // Use textContent to safely update the text (prevents HTML injection)
-                nameElement.textContent = subdomain;
+                // Use the formatted name here
+                nameElement.textContent = formattedSubdomain;
             }
 
-             // Update the page title dynamically
-             document.title = `Hey Everyone! ${subdomain} is DA BOMB!`;
+             // Update the page title dynamically using the formatted name
+             document.title = `OMG! ${formattedSubdomain} is DA BOMB!`;
 
             // --- Trigger Confetti ---
             // Wait slightly after name update, then unleash the confetti!
-            setTimeout(makeItRain, 300);
+            // Don't trigger confetti if the name is the default 'You' or 'Nobody'
+            if (rawSubdomain !== 'You' && rawSubdomain !== 'Nobody') {
+               setTimeout(makeItRain, 300);
+            }
         }
 
         // Function to trigger confetti (same as before)
@@ -95,7 +124,6 @@
 
         // Run the initialization function when the page content is fully loaded
         document.addEventListener('DOMContentLoaded', initializePage);
-
     </script>
 
 </body>
